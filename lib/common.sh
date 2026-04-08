@@ -12,7 +12,7 @@ CONFIG_FILE="${CONFIG_DIR}/config"
 LOG_DIR="/var/log/mtproxy-manager"
 DATA_DIR="/var/lib/mtproxy-manager"
 BIN_DIR="/usr/local/bin"
-REPO_URL="https://github.com/ChernOvOne/proxy.git"
+REPO_URL="https://github.com/ChernOvOne/proxytg.git"
 
 # --- Цвета и символы --------------------------------------------------------
 RED='\033[0;31m'

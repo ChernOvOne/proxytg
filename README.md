@@ -6,7 +6,7 @@
 ## Быстрая установка
 
 ```bash
-bash <(curl -sL https://raw.githubusercontent.com/ChernOvOne/proxy/main/install.sh)
+bash <(curl -sL https://raw.githubusercontent.com/ChernOvOne/proxytg/main/install.sh)
 ```
 
 После установки управление:

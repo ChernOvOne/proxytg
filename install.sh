@@ -2,12 +2,12 @@
 # ============================================================================
 # MTProxy Manager — Installer
 # Установка одной командой:
-#   bash <(curl -sL https://raw.githubusercontent.com/ChernOvOne/proxy/main/install.sh)
+#   bash <(curl -sL https://raw.githubusercontent.com/ChernOvOne/proxytg/main/install.sh)
 # ============================================================================
 
 set -euo pipefail
 
-REPO_URL="https://github.com/ChernOvOne/proxy.git"
+REPO_URL="https://github.com/ChernOvOne/proxytg.git"
 INSTALL_DIR="/opt/mtproxy-manager"
 CONFIG_DIR="/etc/mtproxy-manager"
 BIN_DIR="/usr/local/bin"
@@ -195,7 +195,7 @@ fresh_install() {
         log_error "Не удалось клонировать ${REPO_URL}"
         log_info "Попытка скачать архив..."
         mkdir -p "${INSTALL_DIR}"
-        curl -sL "https://github.com/ChernOvOne/proxy/archive/main.tar.gz" \
+        curl -sL "https://github.com/ChernOvOne/proxytg/archive/main.tar.gz" \
             | tar -xz --strip-components=1 -C "${INSTALL_DIR}" || {
             log_error "Не удалось скачать. Проверьте URL репозитория."
             exit 1
