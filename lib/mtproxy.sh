@@ -27,6 +27,7 @@ mtproxy_install() {
     # Зависимости для сборки
     log_info "Установка зависимостей для сборки..."
     if command -v apt-get &>/dev/null; then
+        wait_for_dpkg || return 1
         apt-get update -qq 2>/dev/null || true
         if ! apt-get install -y build-essential libssl-dev zlib1g-dev 2>&1; then
             log_error "Не удалось установить зависимости"

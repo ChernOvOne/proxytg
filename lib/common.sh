@@ -88,11 +88,23 @@ detect_os() {
 }
 
 # --- Установка зависимостей -------------------------------------------------
+wait_for_dpkg() {
+    local count=0
+    while fuser /var/lib/dpkg/lock-frontend &>/dev/null 2>&1; do
+        [[ $count -eq 0 ]] && log_warn "Ожидание dpkg (другой процесс обновляется)..."
+        sleep 3
+        count=$((count + 1))
+        [[ $count -gt 40 ]] && { log_error "dpkg заблокирован > 2 мин"; return 1; }
+    done
+    return 0
+}
+
 install_deps() {
     log_info "Установка зависимостей..."
     case "${OS_ID}" in
         ubuntu|debian)
-            apt-get update -qq
+            wait_for_dpkg || return 1
+            apt-get update -qq 2>/dev/null || true
             apt-get install -y -qq curl wget jq openssl git net-tools bc > /dev/null 2>&1
             ;;
         centos|rhel|fedora|rocky|alma*)
