@@ -93,15 +93,15 @@ install_deps() {
     case "${OS_ID}" in
         ubuntu|debian)
             apt-get update -qq
-            apt-get install -y -qq curl wget jq openssl git net-tools > /dev/null 2>&1
+            apt-get install -y -qq curl wget jq openssl git net-tools bc > /dev/null 2>&1
             ;;
         centos|rhel|fedora|rocky|alma*)
-            yum install -y -q curl wget jq openssl git net-tools > /dev/null 2>&1
+            yum install -y -q curl wget jq openssl git net-tools bc > /dev/null 2>&1
             ;;
         *)
             log_warn "Неизвестная ОС: ${OS_ID}. Попытка установить зависимости..."
-            apt-get update -qq && apt-get install -y -qq curl wget jq openssl git net-tools > /dev/null 2>&1 \
-                || yum install -y -q curl wget jq openssl git net-tools > /dev/null 2>&1 \
+            apt-get update -qq && apt-get install -y -qq curl wget jq openssl git net-tools bc > /dev/null 2>&1 \
+                || yum install -y -q curl wget jq openssl git net-tools bc > /dev/null 2>&1 \
                 || die "Не удалось установить зависимости"
             ;;
     esac
@@ -145,7 +145,7 @@ PROXY_DOMAIN=""
 TELEMT_INSTALLED="false"
 TELEMT_PORT="443"
 TELEMT_SECRET=""
-TELEMT_FAKETLS_DOMAIN="www.google.com"
+TELEMT_FAKETLS_DOMAIN="max.ru"
 TELEMT_AD_TAG=""
 TELEMT_VERSION=""
 
@@ -153,7 +153,7 @@ TELEMT_VERSION=""
 MTG_INSTALLED="false"
 MTG_PORT="8443"
 MTG_SECRET=""
-MTG_FAKETLS_DOMAIN="www.google.com"
+MTG_FAKETLS_DOMAIN="max.ru"
 MTG_AD_TAG=""
 MTG_VERSION=""
 
@@ -193,7 +193,7 @@ generate_secret() {
 }
 
 generate_ee_secret() {
-    local domain="${1:-www.google.com}"
+    local domain="${1:-max.ru}"
     local secret
     secret="$(openssl rand -hex 16)"
     local hex_domain
