@@ -165,20 +165,18 @@ telemt_install() {
     hex_domain=$(echo -n "$faketls_domain" | xxd -p | tr -d '\n')
     local ee_secret="ee${secret}${hex_domain}"
 
-    # Показываем секрет для бота
-    echo ""
-    echo -e "  🔑 ${BOLD}Секрет для @MTProxybot:${NC} ${YELLOW}${secret}${NC}"
-    echo -e "  ${DIM}(Отправьте этот секрет боту @MTProxybot чтобы получить Ad Tag)${NC}"
-
     # Рекламный тег
     local ad_tag=""
     echo ""
-    if confirm "Настроить рекламный тег (Ad Tag)? (можно позже через tgp -> Ad Tag)"; then
-        echo -e "${DIM}1) Откройте @MTProxybot в Telegram${NC}"
-        echo -e "${DIM}2) Отправьте /newproxy${NC}"
-        echo -e "${DIM}3) Отправьте порт: ${port}${NC}"
-        echo -e "${DIM}4) Отправьте секрет: ${secret}${NC}"
-        echo -e "${DIM}5) Бот выдаст Ad Tag — вставьте его сюда${NC}"
+    if confirm "Настроить рекламный тег (Ad Tag)? (можно позже через tgp → 10)"; then
+        echo ""
+        echo -e "  ${BOLD}Инструкция:${NC}"
+        echo -e "  1) Откройте ${CYAN}@MTProxybot${NC} в Telegram"
+        echo -e "  2) Отправьте ${CYAN}/newproxy${NC}"
+        echo -e "  3) Бот спросит порт — отправьте: ${YELLOW}${port}${NC}"
+        echo -e "  4) Бот спросит секрет — отправьте: ${YELLOW}${secret}${NC}"
+        echo -e "  5) Выберите канал для рекламы"
+        echo -e "  6) Бот выдаст Ad Tag — вставьте его ниже"
         echo ""
         read -rp "$(echo -e "${CYAN}Ad Tag: ${NC}")" ad_tag
     fi
