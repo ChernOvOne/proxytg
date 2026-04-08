@@ -165,11 +165,21 @@ telemt_install() {
     hex_domain=$(echo -n "$faketls_domain" | xxd -p | tr -d '\n')
     local ee_secret="ee${secret}${hex_domain}"
 
+    # Показываем секрет для бота
+    echo ""
+    echo -e "  🔑 ${BOLD}Секрет для @MTProxybot:${NC} ${YELLOW}${secret}${NC}"
+    echo -e "  ${DIM}(Отправьте этот секрет боту @MTProxybot чтобы получить Ad Tag)${NC}"
+
     # Рекламный тег
     local ad_tag=""
     echo ""
-    if confirm "Настроить рекламный тег (Ad Tag)?"; then
-        echo -e "${DIM}Получите тег у @MTProxybot в Telegram${NC}"
+    if confirm "Настроить рекламный тег (Ad Tag)? (можно позже через tgp -> Ad Tag)"; then
+        echo -e "${DIM}1) Откройте @MTProxybot в Telegram${NC}"
+        echo -e "${DIM}2) Отправьте /newproxy${NC}"
+        echo -e "${DIM}3) Отправьте порт: ${port}${NC}"
+        echo -e "${DIM}4) Отправьте секрет: ${secret}${NC}"
+        echo -e "${DIM}5) Бот выдаст Ad Tag — вставьте его сюда${NC}"
+        echo ""
         read -rp "$(echo -e "${CYAN}Ad Tag: ${NC}")" ad_tag
     fi
 
@@ -283,10 +293,16 @@ telemt_show_links() {
     local server="${PROXY_DOMAIN}"
     [[ -z "$server" ]] && server=$(get_external_ip)
 
+    # Извлекаем чистый hex секрет для бота
+    local bot_secret="${TELEMT_SECRET}"
+    [[ "$bot_secret" == ee* ]] && bot_secret="${bot_secret:2:32}"
+
     echo -e "  ${BOLD}telemt (порт ${TELEMT_PORT}) | SNI: ${TELEMT_FAKETLS_DOMAIN}${NC}"
     echo -e "  ${GREEN}https://t.me/proxy?server=${server}&port=${TELEMT_PORT}&secret=${TELEMT_SECRET}${NC}"
     echo ""
     echo -e "  ${DIM}tg://proxy?server=${server}&port=${TELEMT_PORT}&secret=${TELEMT_SECRET}${NC}"
+    echo ""
+    echo -e "  🔑 Секрет для @MTProxybot: ${YELLOW}${bot_secret}${NC}"
 }
 
 # --- Обновление -------------------------------------------------------------
@@ -382,7 +398,19 @@ telemt_set_ad_tag() {
     load_config
     [[ "${TELEMT_INSTALLED}" != "true" ]] && { log_warn "telemt не установлен"; return; }
 
+    # Показываем секрет для бота
+    local bot_secret="${TELEMT_SECRET}"
+    [[ "$bot_secret" == ee* ]] && bot_secret="${bot_secret:2:32}"
+
     echo -e "  Текущий Ad Tag: ${YELLOW}${TELEMT_AD_TAG:-не установлен}${NC}"
+    echo ""
+    echo -e "  ${BOLD}Как получить Ad Tag:${NC}"
+    echo -e "  1) Откройте @MTProxybot в Telegram"
+    echo -e "  2) Отправьте /newproxy"
+    echo -e "  3) Отправьте порт: ${YELLOW}${TELEMT_PORT}${NC}"
+    echo -e "  4) Отправьте секрет: ${YELLOW}${bot_secret}${NC}"
+    echo -e "  5) Выберите канал для рекламы"
+    echo -e "  6) Бот выдаст Ad Tag — вставьте его ниже"
     echo ""
     read -rp "$(echo -e "${CYAN}Новый Ad Tag (пусто = удалить): ${NC}")" new_tag
 
